@@ -28,42 +28,38 @@ pods() {
                 kubectl -n $namespace describe pods $pod $deployment
             fi
         done
-      ;;
-      "ambassador")
-        for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
-            echo ---------------------------
-            echo $pod
-            echo ---------------------------
-            kubectl -n $namespace describe pods $pod $deployment
-        done
-      ;;
-      "rudderstack")
-        for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
-            echo ---------------------------
-            echo $pod
-            echo ---------------------------
-            kubectl -n $namespace describe pods $pod rudderstack-backend
-        done
-      ;;
-      *)
-        #echo "Fetching logs for $deployment"
-        echo "Describing pods for $deployment"
-        count=0
-        for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
-            echo ---------------------------
-            echo $pod
-            echo ---------------------------
-            kubectl -n $namespace describe pods $pod $container
-            count=$(expr $count + 1)
-        done
-        if [ $count -eq 0 ]; then
-            echo "No pods found for $deployment with selector app=$deployment"
-            echo
-        fi
-      ;;
-    esac
-}
+#       "ambassador")
+#         for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
+#             echo ---------------------------
+#             echo $pod
+#             echo ---------------------------
+#             kubectl -n $namespace describe pods $pod $deployment
+#         done
+#       "rudderstack")
+#         for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
+#             echo ---------------------------
+#             echo $pod
+#             echo ---------------------------
+#             kubectl -n $namespace describe pods $pod rudderstack-backend
+#         done
+#       *)
+#         #echo "Fetching logs for $deployment"
+#         echo "Describing pods for $deployment"
+#         count=0
+#         for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
+#             echo ---------------------------
+#             echo $pod
+#             echo ---------------------------
+#             kubectl -n $namespace describe pods $pod $container
+#             count=$(expr $count + 1)
+#         done
+#         if [ $count -eq 0 ]; then
+#             echo "No pods found for $deployment with selector app=$deployment"
+#             echo
+#         fi
+#     esac
+  }
 
-echo -e "\n\n=============="
-pods "$@"
-echo -e "\n\n=============="
+# echo -e "\n\n=============="
+# pods "$@"
+# echo -e "\n\n=============="
