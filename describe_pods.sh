@@ -13,20 +13,22 @@ pods() {
     deployment=$1
 
         # we use grep to filter out specific pods
-        for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
+        # for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
+        for pod in $(kubectl -n $namespace get pods | grep ${deployment}); do
             echo ---------------------------
-            echo $pod
+            kubectl -n $namespace describe pod $pod
+            # echo $pod
             #if [ "$pod" == "prometheus-prometheus-0" ]; then
                 # echo ---------------------------
                 # kubectl -n $namespace logs $pod $deployment
-            if [ "$pod" in $deployment ]; then
-                echo ---------------------------
-                kubectl -n $namespace describe pods $pod 
-            else
-                echo $pod
-                echo ---------------------------
-                kubectl -n $namespace describe pods $pod $deployment
-            fi
+            # if [ "$pod" in $deployment ]; then
+            #     echo ---------------------------
+            #     kubectl -n $namespace describe pods $pod 
+            # else
+            #     echo $pod
+            #     echo ---------------------------
+            #     kubectl -n $namespace describe pods $pod $deployment
+            # fi
         done
 #       "ambassador")
 #         for pod in $(kubectl -n $namespace get pods | grep ^${deployment}- | cut -f 1 -d ' '); do
