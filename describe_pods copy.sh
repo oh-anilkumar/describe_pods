@@ -1,20 +1,10 @@
 #!/bin/bash
-# Script to K8s services describing pods
-
-#set -e
-
-# switch to appropriate cluster
-az aks get-credentials --resource-group $resourcegroup --name $clustername
-#kubectl config use-context $clustername
-
-echo "$@"
-
-array=[]
-
-for array in $(kubectl -n get po $namespace)
+arr=($(kubectl get pods --no-headers -o custom-columns="NAME:.metadata.name,STATUS:.metadata.status" -n $namespace))
+for value in "${arr[@]}"
 do
-    if [pod in array]
-    then
-        kubectl -n describe po $array $namespace
-    else
-        echo "---------------------"
+    echo $value
+    kubectl describe pod $value -n $namespace
+    echo "================================================================================="
+done
+
+kubectl get pod -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.phase}{"\n"}{end}
